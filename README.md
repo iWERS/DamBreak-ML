@@ -1,6 +1,6 @@
 # DamBreak-ML
 #Numerical Model of 1D dam break
-# -*- coding: utf-8 -*-
+
 """
 Created on Wed Apr  5 12:53:03 2023
 
@@ -16,18 +16,16 @@ sns.set(style = 'darkgrid')
 import timeit
 start = timeit.default_timer()
 
-#Your statements here
-#k=9 for 22.5-14
+
+#Reading the Initial conditions
   
 h=2
 us=22.5
 ds=14
 L=1072
 x = np.arange(0,L+h,h)
-# S = 0.0008
 S = 0.00
 N=0.0
-# fk=7.03
 k=[]
 mm=[]
 tt=0
@@ -45,10 +43,10 @@ value=0
 
 
 Cn=0.5
-# bc = [5.79]
-# ic = [5.79]
 n= len(x)
 m=5000
+
+#Determining the hydraulic properties of the channel
 
 Y= np.zeros((n,m))
 Y1= np.zeros((n,m)) #Y*
@@ -68,8 +66,6 @@ yc= np.zeros((n,m)) #CENTROID FROM FWS
 yc1= np.zeros((n,m)) #CENTROID FROM FWS
 
 
-# yus=3.815
-
 XX=ss*us
 tp1=b+2*XX
 a11=us*(b+XX)
@@ -78,7 +74,7 @@ rup=(us**2+XX**2)**0.5
 ru=a11/(2*rup+b)
 yus=(us/3)*((2*b+tp1)/(tp1+b))
 
-#-------------------------------------------- ds conditions
+# DS conditions
 
 XX2=ss*ds
 tp2=b+2*XX2
@@ -194,18 +190,7 @@ def printt(Y,cnt,tt):
     plt.grid(True)
     plt.legend()
     
-    # fig, vx = plt.subplots()
-    # vx.plot(V[:, cnt], label="Time = {}".format(np.round(tt,2)))
 
-    # # ax.set_ylabel("Depth of water")
-    # # ax.set_xlabel("distance")
-    # vx.set_title("MaCcorack")
-    # vx.set_ylabel("velocity")
-    # vx.set_xlabel("distance x 100m")
-    # plt.grid(True)
-    # plt.legend()
-    # # # plt.savefig("shiva_hm.png")
-    # plt.show()
     
 
 
@@ -231,9 +216,6 @@ for j in range(1,m):
 
                 A1[i,j] = A[i,j-1]-(fk/h)*(V[i,j-1]*A[i,j-1]-V[i-1,j-1]*A[i-1,j-1])
                 Y1[i,j] = (-b+((b**2)+4*ss*A1[i,j])**0.5)/(2*ss)
-    #  print(j)
-    #  print(i)
-    #  print(A1[i,j])
                 yc[i,j-1] = ((Y[i,j-1]/3))*(2*b+b+2*ss*Y[i,j-1])/(b+(b+2*ss*Y[i,j-1]))
                 yc[i-1,j-1] = (Y[i-1,j-1]/3)*(2*b+b+2*ss*Y[i-1,j-1])/(b+(b+2*ss*Y[i-1,j-1]))
                 yc[i+1,j-1] = (Y[i+1,j-1]/3)*(2*b+b+2*ss*Y[i+1,j-1])/(b+(b+2*ss*Y[i+1,j-1]))
@@ -312,18 +294,17 @@ for j in range(1,m):
 ap=Y[int(0.744*L/h),:]
 ap1=Y[int(0.8*L/h),:]
 
-  # mm1.append(ap)
-  # if (m % 5 ==0):
-  #  printt(Y,cnt,tt)
+#Plotting results
+
 fig, yx = plt.subplots()
 yx.plot(Y[int(n-1),:], label="5 km")
 yx.plot(Y[int((n-1)/2),:], label="mid section")
-# yx.plot(Y[int(0.8*(n-1)),:], label="8 m")
+
 yx.plot(Y[int(0.8*(n-1)),:], label="8 m")
-# yx.plot(Y[10,:], label="1 km")
+
 yx.plot(Y[0,:], label="at reservoir km")
 plt.xlim(-1,250)
-# plt.ylim(4.5,7.5)
+
 yx.set_title("MaCcormack")
 yx.set_ylabel("Depth of water")
 yx.set_xlabel("time")
@@ -353,18 +334,16 @@ for i in range(0,cc):
             termi = termi+1     
 wspeed= 60/(wave1-wave)        
 print(wspeed)
-# m1=app1[i+1]-app1[i]     
+
 fig, yx = plt.subplots()
 yx.plot(tg,app)
 
-# plt.xlim(-1,250)
-# plt.ylim(4.5,7.5)
+
 yx.set_title("MaCcormack")
 yx.set_ylabel("Depth of water")
 yx.set_xlabel("time")
 plt.grid(True)
 plt.legend()    
-# app=ap[ap>0]
 
 
 
@@ -375,25 +354,7 @@ plt.legend()
 
 
 
-# # plt.savefig("shiva_hm.png")
-# plt.show()
-# fig, vx = plt.subplots()
-# vx.plot(V[:, 0], label="0 S")
-# vx.plot(V[:, 39], label="500 S")
-# vx.plot(V[:, 77], label="1000 S")
-# # vx.plot(V[:, 111], label="1500 S")
-# vx.plot(V[:, 143], label="2000 S")
-# vx.plot(V[:, 207], label="3000 S")
-# ax.set_title("Lax Diffusion")
-# ax.set_ylabel("Depth of water")
-# ax.set_xlabel("distance")
-# vx.set_title("Lax Diffusion")
-# vx.set_ylabel("velocity")
-# vx.set_xlabel("distance x 100m")
-# plt.grid(True)
-# plt.legend()
-# # # plt.savefig("shiva_hm.png")
-# plt.show()
+
 
 
 stop = timeit.default_timer()
